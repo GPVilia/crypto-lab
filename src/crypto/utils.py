@@ -1,0 +1,1 @@
+# Funções utilitárias para criptografia (KDF, base64, etc...)

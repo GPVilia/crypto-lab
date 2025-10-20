@@ -1,0 +1,20 @@
+# Ambiente virtual
+.venv/
+venv/
+__pycache__/
+
+# Ficheiros temporários de testes
+src/tests/tmp/
+*.bin
+*.enc
+*.log
+*.pem
+*.sig
+
+# Configurações locais
+.env
+.vscode/
+
+# Sistema
+.DS_Store
+Thumbs.db

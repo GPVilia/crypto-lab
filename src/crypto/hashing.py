@@ -1,0 +1,1 @@
+# Hashes e HMAC

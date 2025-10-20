@@ -1,0 +1,1 @@
+# Assinaturas digitais (ex: RSA, DSA, ECDSA)
