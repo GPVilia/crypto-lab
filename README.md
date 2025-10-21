@@ -79,7 +79,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4️⃣ Executar os testes de criptografia simétrica
+### 4️⃣ Executar os testes de criptografia
 
 ```bash
 py -m src.tests.test_symmetric
@@ -104,6 +104,14 @@ py .\src\main.py
 | **Hash e HMAC** | MD5, SHA-2, SHA-3, HMAC-SHA256 | Integridade e autenticação |
 | **Interface Gráfica** | CustomTkinter | GUI moderna com modo escuro e ações de cifra/decifra |
 
+---
+
+## 📦 Dependências Principais
+| Biblioteca | Uso |
+|------------|-------------|
+| **cryptography** | Implementação dos algoritmos criptográficos |
+| **CustomTkinter** | Interface gráfica |
+| **hashlib, hmac** | Funções nativas para hashing e autenticação |
 ---
 
 ## 🧪 Testes
@@ -131,8 +139,10 @@ Este projeto é aberto a melhorias.
 Sugestões, correções ou novas funcionalidades são bem-vindas através de *Pull Requests* ou *Issues*.
 
 ## 📚
-Licenciatura em Gestão de Sistemas e Computação
+Licenciatura em Gestão de Sistemas e Computação.
+
 Universidade Altântica
+> Projeto desenvolvido no âmbito da unidade curricular de Segurança e Auditoria Informática, como ferramenta de estudo e demonstração de algoritmos criptográficos.
 
 
 ---
