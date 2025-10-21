@@ -1,8 +1,12 @@
 # AES, 3DES, etc...
 
-import os
+# AES (Advanced Encryption Standard) é um algoritmo de cifragem simétrica amplamente utilizado que suporta tamanhos de chave de 128, 192 e 256 bits.
+
+# 3DES (Triple Data Encryption Standard) é uma versão mais segura do DES que aplica o algoritmo DES três vezes a cada bloco de dados, geralmente com uma chave de 168 bits.
+
 from typing import Optional
 from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
+from .utils import read_file_bytes, write_file_bytes, generate_salt, generate_nonce
 
 # AES
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
@@ -23,7 +27,7 @@ def derive_key(password: str | bytes, salt: Optional[bytes] = None, length: int 
         password = password.encode('utf-8')
 
     if salt is None:
-        salt = os.urandom(16) # Gera um salt aleatório se não fornecido
+        salt = generate_salt(16) # Gera um salt aleatório se não fornecido
     kdf = Scrypt(
         salt=salt,
         length=length, # comprimento da chave derivada
@@ -49,19 +53,17 @@ def encrypt_file_aes(in_path: str, out_path: str, password: str | bytes):
     """
 
     #Lê o ficheiro original
-    with open(in_path, 'rb') as f:
-        data = f.read()
+    data = read_file_bytes(in_path)
     #Deriva a chave e obtém o salt
     key, salt = derive_key(password)
-    nonce = os.urandom(12) # Gera um nonce aleatório para AES-GCM (96 bits é o padrão GCM)
+    nonce = generate_nonce(12) # Gera um nonce aleatório para AES-GCM (96 bits é o padrão GCM)
 
     # Cria o objeto AESGCM e cifra
     aesgcm = AESGCM(key)
     ciphertext = aesgcm.encrypt(nonce, data, None)
 
     # Guarda o salt + nonce + ciphertext num ficheiro binário
-    with open(out_path, 'wb') as f:
-        f.write(salt + nonce + ciphertext)
+    write_file_bytes(out_path, salt + nonce + ciphertext)
 
 # Decrypt AES
 def decrypt_file_aes(in_path: str, out_path: str, password: str | bytes):
@@ -78,8 +80,7 @@ def decrypt_file_aes(in_path: str, out_path: str, password: str | bytes):
     """
 
     #Lê o ficheiro cifrado
-    with open(in_path, 'rb') as f:
-        file_data = f.read()
+    file_data = read_file_bytes(in_path)
 
     # Extrai o salt, nonce e ciphertext
     salt = file_data[:16] # Primeiro 16 bytes são o salt
@@ -94,8 +95,7 @@ def decrypt_file_aes(in_path: str, out_path: str, password: str | bytes):
     plaintext = aesgcm.decrypt(nonce, ciphertext, None)
 
     # Guarda o texto decifrado num ficheiro
-    with open(out_path, 'wb') as f:
-        f.write(plaintext)
+    write_file_bytes(out_path, plaintext)
 
 
 # 3DES
@@ -117,12 +117,11 @@ def encrypt_file_3des(in_path: str, out_path: str, password: str | bytes):
     """
 
     # Lê o ficheiro original
-    with open(in_path, 'rb') as f:
-        data = f.read()
+    data = read_file_bytes(in_path)
 
     # Deriva a chave e obtém o salt
     key, salt = derive_key(password, length=24) # 3DES usa chave de 24 bytes
-    iv = os.urandom(8) # Gera um IV aleatório para 3DES (64 bits)
+    iv = generate_nonce(8) # Gera um IV aleatório para 3DES (64 bits)
 
     # Cria um objeto de cifra (CBC)
     cipher = Cipher(algorithms.TripleDES(key), modes.CBC(iv), backend=default_backend())
@@ -136,8 +135,7 @@ def encrypt_file_3des(in_path: str, out_path: str, password: str | bytes):
     ciphertext = encryptor.update(padded_data) + encryptor.finalize()
 
     # Guarda o salt + iv + ciphertext num ficheiro binário
-    with open(out_path, 'wb') as f:
-        f.write(salt + iv + ciphertext)
+    write_file_bytes(out_path, salt + iv + ciphertext)
 
 
 def decrypt_file_3des(in_path: str, out_path: str, password: str | bytes):
@@ -154,8 +152,7 @@ def decrypt_file_3des(in_path: str, out_path: str, password: str | bytes):
     """
 
     # Lê o ficheiro cifrado
-    with open(in_path, 'rb') as f:
-        file_data = f.read()
+    file_data = read_file_bytes(in_path)
 
     # Extrai o salt, iv e ciphertext
     salt = file_data[:16] # Primeiro 16 bytes são o salt
@@ -177,5 +174,4 @@ def decrypt_file_3des(in_path: str, out_path: str, password: str | bytes):
     plaintext = unpadder.update(padded_plaintext) + unpadder.finalize()
 
     # Guarda o texto decifrado num ficheiro
-    with open(out_path, 'wb') as f:
-        f.write(plaintext)
+    write_file_bytes(out_path, plaintext)
