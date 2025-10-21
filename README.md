@@ -3,7 +3,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
+![Status](https://img.shields.io/badge/Status-Ativo-success)
 
 Este projeto implementa, de forma **educativa e modular**, diversos algoritmos criptográficos em Python.  
 O objetivo é compreender e demonstrar como funcionam **as principais técnicas de criptografia moderna**, incluindo cifras simétricas, assimétricas, assinaturas digitais e funções de hash.
@@ -15,8 +15,8 @@ O objetivo é compreender e demonstrar como funcionam **as principais técnicas 
 - Implementar e compreender algoritmos de **cifra e decifra** (AES, 3DES, RSA, etc.)
 - Demonstrar a **derivação segura de chaves** com Scrypt (KDF)
 - Explorar **assinaturas digitais** e verificação de integridade
-- Estruturar o projeto de forma **modular e escalável**
-- Desenvolver uma **interface gráfica (Tkinter)** para interação simples e intuitiva
+- OPT: Estruturar o projeto de forma **modular e escalável**
+- OPT: Desenvolver uma **interface gráfica (CustomTkinter)** para interação simples e intuitiva
 
 ---
 
@@ -28,12 +28,12 @@ crypto_lab/
 ├── src/
 │   ├── crypto/               # Módulos de criptografia
 │   │   ├── symmetric.py      # AES-GCM, 3DES, Scrypt (KDF)
-│   │   ├── asymmetric.py     # RSA, ECDH (futuro)
-│   │   ├── signatures.py     # Assinaturas digitais (futuro)
-│   │   ├── hashing.py        # Hash e HMAC (futuro)
+│   │   ├── asymmetric.py     # RSA, ECDH
+│   │   ├── signatures.py     # Assinaturas digitais
+│   │   ├── hashing.py        # Hash e HMAC
 │   │   └── utils.py          # Funções auxiliares
 │   │
-│   ├── gui/                  # Interface Tkinter (fase futura)
+│   ├── gui/                  # Interface Tkinter
 │   │   ├── app.py
 │   │   └── views/
 │   │       ├── encrypt_view.py
@@ -83,6 +83,13 @@ pip install -r requirements.txt
 
 ```bash
 py -m src.tests.test_symmetric
+py -m src.tests.test_asymmetric
+py -m src.tests.test_hashing
+py -m src.tests.test_signatures
+```
+Ou se preferir correr a interface gráfica:
+```bash
+py .\src\main.py
 ```
 
 ---
@@ -91,13 +98,11 @@ py -m src.tests.test_symmetric
 
 | Categoria | Algoritmos | Descrição |
 |------------|-------------|------------|
-| **KDF (Derivação de Chave)** | Scrypt | Converte senhas em chaves seguras com salt aleatório |
-| **Simétrica** | AES-256-GCM | Cifra autenticada moderna |
-| | 3DES-CBC | Algoritmo legado para comparação |
-| **Assimétrica** | RSA | Base para cifra híbrida e assinatura digital |
-| | ECDH | Derivação de chave via curvas elípticas |
-| **Assinatura Digital** | RSA-PSS / DSA | Assinar e verificar ficheiros |
-| **Hash / HMAC** | MD5, SHA-2, SHA-3 | Integridade e autenticação |
+| **Cifras Simétricas** | AES, 3DES | Cifra e decifra de ficheiros com chaves derivadas (Scrypt) |
+| **Cifras Assimétricas** | RSA, ECDH | Geração de pares de chaves, cifra e decifra |
+| **Assinaturas Digitais** | RSA-PSS, DSA, ECDSA | Assinar e verificar mensagens e ficheiros |
+| **Hash e HMAC** | MD5, SHA-2, SHA-3, HMAC-SHA256 | Integridade e autenticação |
+| **Interface Gráfica** | CustomTkinter | GUI moderna com modo escuro e ações de cifra/decifra |
 
 ---
 
@@ -124,5 +129,10 @@ Este projeto é distribuído sob a licença **MIT** — consulta o ficheiro [LIC
 
 Este projeto é aberto a melhorias.  
 Sugestões, correções ou novas funcionalidades são bem-vindas através de *Pull Requests* ou *Issues*.
+
+## 📚
+Licenciatura em Gestão de Sistemas e Computação
+Universidade Altântica
+
 
 ---
